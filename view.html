@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XSS Detector</title>
+  </head>
+  <body>
+    <h1>XSS Detector</h1>
+    <textarea
+      id="inputText"
+      rows="5"
+      cols="50"
+      placeholder="Enter text"
+    ></textarea
+    ><br />
+    <button onclick="predict()">Check Text</button>
+    <p id="result"></p>
+
+    <script>
+      async function predict() {
+        const inputText = document.getElementById("inputText").value;
+        const response = await fetch("http://127.0.0.1:5000/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: inputText }),
+        });
+        const result = await response.json();
+        document.getElementById(
+          "result"
+        ).innerText = `Prediction: ${result.prediction}`;
+      }
+    </script>
+  </body>
+</html>
